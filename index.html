@@ -303,7 +303,7 @@
             // Hide click text
             gsap.to(clickText, {
                 opacity: 0,
-                duration: 0.3,
+                duration: 0.2,
                 onComplete: function() {
                     clickText.style.display = 'none';
                 }
@@ -312,9 +312,9 @@
             // Shake the piñata
             gsap.to(pinata, {
                 rotation: -15,
-                duration: 0.1,
+                duration: 0.05,
                 yoyo: true,
-                repeat: 5,
+                repeat: 3,
                 onComplete: breakPinata
             });
 
@@ -327,7 +327,7 @@
                     scale: 0,
                     rotation: 360,
                     opacity: 0,
-                    duration: 0.6,
+                    duration: 0.3,
                     ease: "power4.in"
                 });
 
@@ -335,16 +335,16 @@
                 gsap.to(numberDisplay, {
                     opacity: 1,
                     scale: 1.5,
-                    duration: 0.8,
-                    delay: 0.4,
+                    duration: 0.4,
+                    delay: 0.2,
                     ease: "elastic.out(1, 0.5)",
                     onComplete: function() {
                         // Bounce effect
                         gsap.to(numberDisplay, {
                             y: -20,
-                            duration: 0.5,
+                            duration: 0.3,
                             yoyo: true,
-                            repeat: 3,
+                            repeat: 2,
                             ease: "power2.inOut"
                         });
 
@@ -352,14 +352,14 @@
                         winnerText.style.display = 'block';
                         gsap.fromTo(winnerText, 
                             { opacity: 0, y: 20 },
-                            { opacity: 1, y: 0, duration: 0.6, delay: 0.5 }
+                            { opacity: 1, y: 0, duration: 0.3, delay: 0.3 }
                         );
 
                         // Show reset button
                         resetButton.style.display = 'inline-block';
                         gsap.fromTo(resetButton,
                             { opacity: 0, scale: 0 },
-                            { opacity: 1, scale: 1, duration: 0.5, delay: 0.8, ease: "back.out(1.7)" }
+                            { opacity: 1, scale: 1, duration: 0.3, delay: 0.4, ease: "back.out(1.7)" }
                         );
                     }
                 });
@@ -367,7 +367,7 @@
 
             function createConfetti() {
                 const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#a8e6cf', '#ff8ed4'];
-                const confettiCount = 50;
+                const confettiCount = 30; // Reduced from 50 for better mobile performance
 
                 for (let i = 0; i < confettiCount; i++) {
                     const confetti = document.createElement('div');
@@ -385,16 +385,16 @@
                         y: (Math.random() - 0.5) * 600,
                         rotation: Math.random() * 720,
                         opacity: 1,
-                        duration: 1,
-                        delay: Math.random() * 0.3,
+                        duration: 0.6,
+                        delay: Math.random() * 0.1,
                         ease: "power2.out"
                     });
 
                     gsap.to(confetti, {
                         y: '+=200',
                         opacity: 0,
-                        duration: 1,
-                        delay: 1 + Math.random() * 0.5,
+                        duration: 0.6,
+                        delay: 0.6 + Math.random() * 0.2,
                         ease: "power2.in",
                         onComplete: () => confetti.remove()
                     });
@@ -409,7 +409,7 @@
             // Hide button and winner text
             gsap.to([resetButton, winnerText, numberDisplay], {
                 opacity: 0,
-                duration: 0.3,
+                duration: 0.2,
                 onComplete: function() {
                     resetButton.style.display = 'none';
                     winnerText.style.display = 'none';
@@ -422,14 +422,14 @@
                 scale: 1,
                 rotation: 0,
                 opacity: 1,
-                duration: 0.6,
+                duration: 0.4,
                 ease: "back.out(1.7)",
                 onComplete: function() {
                     // Show click text again
                     clickText.style.display = 'block';
                     gsap.to(clickText, {
                         opacity: 1,
-                        duration: 0.5
+                        duration: 0.3
                     });
                 }
             });
