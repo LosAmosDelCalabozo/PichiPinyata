@@ -96,7 +96,8 @@
             }
 
             .number-display {
-                font-size: 6rem;
+                font-size: 4rem;
+                letter-spacing: 5px;
             }
 
             .winner-text {
@@ -170,10 +171,12 @@
             position: relative;
             filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
             transition: transform 0.3s;
+            will-change: transform, opacity;
+            transform: translateZ(0);
         }
 
         .pinata:hover {
-            transform: scale(1.08) rotate(3deg);
+            transform: scale(1.08) rotate(3deg) translateZ(0);
         }
 
         .click-text {
@@ -195,7 +198,7 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) translateZ(0);
             font-size: 10rem;
             font-weight: 900;
             color: #fff;
@@ -205,6 +208,7 @@
             opacity: 0;
             z-index: 100;
             letter-spacing: 10px;
+            will-change: transform, opacity;
         }
 
         .confetti {
@@ -212,6 +216,8 @@
             width: 15px;
             height: 15px;
             opacity: 0;
+            will-change: transform, opacity;
+            transform: translateZ(0);
         }
 
         .reset-button {
@@ -309,12 +315,13 @@
                 }
             });
 
-            // Shake the piñata
+            // Shake the piñata - simplified for Firefox
             gsap.to(pinata, {
-                rotation: -15,
+                rotation: -10,
                 duration: 0.05,
                 yoyo: true,
-                repeat: 3,
+                repeat: 2,
+                ease: "none",
                 onComplete: breakPinata
             });
 
@@ -335,31 +342,31 @@
                 gsap.to(numberDisplay, {
                     opacity: 1,
                     scale: 1.5,
-                    duration: 0.4,
+                    duration: 0.3,
                     delay: 0.2,
-                    ease: "elastic.out(1, 0.5)",
+                    ease: "back.out(1.5)",
                     onComplete: function() {
-                        // Bounce effect
+                        // Simpler bounce effect for Firefox
                         gsap.to(numberDisplay, {
-                            y: -20,
-                            duration: 0.3,
+                            y: -15,
+                            duration: 0.25,
                             yoyo: true,
-                            repeat: 2,
-                            ease: "power2.inOut"
+                            repeat: 1,
+                            ease: "power1.inOut"
                         });
 
                         // Show winner text
                         winnerText.style.display = 'block';
                         gsap.fromTo(winnerText, 
                             { opacity: 0, y: 20 },
-                            { opacity: 1, y: 0, duration: 0.3, delay: 0.3 }
+                            { opacity: 1, y: 0, duration: 0.3, delay: 0.2 }
                         );
 
                         // Show reset button
                         resetButton.style.display = 'inline-block';
                         gsap.fromTo(resetButton,
                             { opacity: 0, scale: 0 },
-                            { opacity: 1, scale: 1, duration: 0.3, delay: 0.4, ease: "back.out(1.7)" }
+                            { opacity: 1, scale: 1, duration: 0.3, delay: 0.3, ease: "back.out(1.5)" }
                         );
                     }
                 });
@@ -367,7 +374,7 @@
 
             function createConfetti() {
                 const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#a8e6cf', '#ff8ed4'];
-                const confettiCount = 30; // Reduced from 50 for better mobile performance
+                const confettiCount = 20; // Reduced for better Firefox performance
 
                 for (let i = 0; i < confettiCount; i++) {
                     const confetti = document.createElement('div');
@@ -379,22 +386,21 @@
                     
                     pinataContainer.appendChild(confetti);
 
-                    // Animate confetti explosion
+                    // Animate confetti explosion - simplified for Firefox
                     gsap.to(confetti, {
-                        x: (Math.random() - 0.5) * 600,
-                        y: (Math.random() - 0.5) * 600,
-                        rotation: Math.random() * 720,
+                        x: (Math.random() - 0.5) * 500,
+                        y: (Math.random() - 0.5) * 500,
+                        rotation: Math.random() * 360,
                         opacity: 1,
-                        duration: 0.6,
-                        delay: Math.random() * 0.1,
+                        duration: 0.5,
                         ease: "power2.out"
                     });
 
                     gsap.to(confetti, {
-                        y: '+=200',
+                        y: '+=150',
                         opacity: 0,
-                        duration: 0.6,
-                        delay: 0.6 + Math.random() * 0.2,
+                        duration: 0.5,
+                        delay: 0.5,
                         ease: "power2.in",
                         onComplete: () => confetti.remove()
                     });
